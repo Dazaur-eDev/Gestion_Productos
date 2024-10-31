@@ -1,4 +1,4 @@
-**Enunciado del Proyecto: Sistema de Gestión de Productos**
+**Proyecto: Sistema de Gestión de Productos**
 
 Desarrollar una aplicación web en Java utilizando el framework Spring Boot y Spring Data JPA con base de datos PostgreSQL para la gestión de productos. El sistema implementará un CRUD que permitirá realizar operaciones de creación, lectura, actualización y eliminación de productos, con funcionalidades adicionales de paginación y filtrado en el listado.
 
