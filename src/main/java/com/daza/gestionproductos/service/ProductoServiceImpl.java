@@ -45,17 +45,11 @@ public class ProductoServiceImpl implements ProductoService {
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))));
 
-        List<Producto> content = productos.getContent();
-        List<ProductoDTO> list = content.stream().map(productoMapper::toDto).toList();
-
-        return new PageImpl<>(list, pageable,list.size());
-
-//
-//        return (Page<ProductoDTO>) productoRepository.findByNombreContainingIgnoreCase(nombre, PageRequest.of(
-//                pageable.getPageNumber(),
-//                pageable.getPageSize(),
-//                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))
-//        )).stream().map(productoMapper::toDto);
+        /*
+        * La clase Page nos proporciona un método 'map', que mantiene lo necesario de la paginación y solo transforma
+        * el contenido, por lo que no es necesario el mapeo manual.
+        * */
+        return productos.map(productoMapper::toDto);
     }
 
     @Override
