@@ -27,17 +27,18 @@ public class ProductoMapper {
         producto.setMarca(updateDTO.getMarca());
         LocalDate fecha = parsearFecha(updateDTO.getFechaElaboracion());
         producto.setFechaElaboracion(fecha);
-        producto.setEstaDisponible(updateDTO.isEstaDisponible());
+        producto.setEstaDisponible(updateDTO.getEstaDisponible());
         producto.setPrecio(updateDTO.getPrecio());
         return producto;
     }
 
     public ProductoDTO toDto(Producto producto){
         ProductoDTO productoDTO = new ProductoDTO();
+        productoDTO.setId(producto.getId());
         productoDTO.setNombre(producto.getNombre());
         productoDTO.setMarca(producto.getMarca());
         productoDTO.setFechaElaboracion(producto.getFechaElaboracion());
-        productoDTO.setEstaDisponible(producto.isEstaDisponible());
+        productoDTO.setEstaDisponible(producto.getEstaDisponible());
         productoDTO.setPrecio(producto.getPrecio());
         return productoDTO;
     }

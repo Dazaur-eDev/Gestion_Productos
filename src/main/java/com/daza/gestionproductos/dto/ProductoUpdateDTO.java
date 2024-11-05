@@ -11,6 +11,6 @@ public class ProductoUpdateDTO {
     private String nombre;
     private String marca;
     private String fechaElaboracion;
-    private boolean estaDisponible;
-    private int precio;
+    private Boolean estaDisponible;
+    private Integer precio;
 }

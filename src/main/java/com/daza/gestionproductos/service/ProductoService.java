@@ -10,11 +10,11 @@ import org.springframework.data.domain.Pageable;
 public interface ProductoService {
 
     ProductoDTO createProducto (ProductoCreateDTO createDTO);
-    ProductoDTO updateProducto (ProductoUpdateDTO updateDTO);
+    ProductoDTO updateProducto (Long id, ProductoUpdateDTO updateDTO);
     void deleteProducto (Long id);
     Page<ProductoDTO> busquedaProductoNombre(String nombre, Pageable pageable);
     Page<ProductoDTO> busquedaProductoMarca(String marca, Pageable pageable);
     Page<ProductoDTO> busquedaProductoRangoPrecio(int precioMin, int precioMax, Pageable pageable);
-
+    Page<ProductoDTO> listarProductos(Pageable pageable);
 
 }

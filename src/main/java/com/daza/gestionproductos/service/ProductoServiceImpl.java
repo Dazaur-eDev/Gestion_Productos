@@ -6,15 +6,19 @@ import com.daza.gestionproductos.dto.ProductoMapper;
 import com.daza.gestionproductos.dto.ProductoUpdateDTO;
 import com.daza.gestionproductos.model.Producto;
 import com.daza.gestionproductos.repository.ProductoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Stream;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
@@ -28,13 +32,37 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public ProductoDTO updateProducto(ProductoUpdateDTO updateDTO) {
-        return null;
+    public ProductoDTO updateProducto(Long id, ProductoUpdateDTO updateDTO) {
+
+        //Encontrar a modificar la entidad por id:
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con id: " + id));
+
+        if(updateDTO.getNombre() != null){
+            producto.setNombre(updateDTO.getNombre());
+        }
+        if(updateDTO.getMarca()!=null){
+            producto.setMarca(updateDTO.getMarca());
+        }
+        if(updateDTO.getFechaElaboracion()!=null){
+            producto.setFechaElaboracion(LocalDate.parse(updateDTO.getFechaElaboracion())); //puede fallar si formato de fecha invalida
+        }
+        if(updateDTO.getEstaDisponible() !=null){
+            producto.setEstaDisponible(updateDTO.getEstaDisponible());
+        }
+        if(updateDTO.getPrecio()!=null){
+            producto.setPrecio(updateDTO.getPrecio());
+        }
+        Producto updatedProduct = productoRepository.save(producto);
+
+        return productoMapper.toDto(updatedProduct);
     }
 
     @Override
     public void deleteProducto(Long id) {
-
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con id: " + id));
+        productoRepository.delete(producto);
     }
 
     @Override
@@ -44,21 +72,45 @@ public class ProductoServiceImpl implements ProductoService {
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))));
-
         /*
-        * La clase Page nos proporciona un método 'map', que mantiene lo necesario de la paginación y solo transforma
-        * el contenido, por lo que no es necesario el mapeo manual.
-        * */
+         * La clase Page nos proporciona un método 'map', que mantiene lo necesario de la paginación y solo transforma
+         * el contenido, por lo que no es necesario el mapeo manual.
+         * */
         return productos.map(productoMapper::toDto);
     }
 
     @Override
     public Page<ProductoDTO> busquedaProductoMarca(String marca, Pageable pageable) {
-        return null;
+
+        Page<Producto> productos = productoRepository.findByMarcaContainingIgnoreCase(marca, PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))));
+
+
+        return productos.map(productoMapper::toDto);
     }
 
     @Override
     public Page<ProductoDTO> busquedaProductoRangoPrecio(int precioMin, int precioMax, Pageable pageable) {
-        return null;
+
+        Page<Producto> productos = productoRepository.findProductoByPrecioBetween(precioMin,precioMax, PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))));
+
+        return productos.map(productoMapper::toDto);
     }
+
+    @Override
+    public Page<ProductoDTO> listarProductos(Pageable pageable) {
+        Page<Producto> all = productoRepository.findAll(PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))));
+
+        return all.map(productoMapper::toDto);
+    }
+
+
 }

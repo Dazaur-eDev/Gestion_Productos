@@ -32,10 +32,10 @@ public class Producto {
      private LocalDate fechaElaboracion;
 
      @Column(name = "disponible")
-     private boolean estaDisponible;
+     private Boolean estaDisponible;
 
      @Column(name="precio", nullable = false)
-     private int precio;
+     private Integer precio;
 
 
 }
