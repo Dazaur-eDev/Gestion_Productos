@@ -1,5 +1,6 @@
 package com.daza.gestionproductos.service;
 
+import com.daza.gestionproductos.dto.CriterioBusqueda;
 import com.daza.gestionproductos.dto.ProductoCreateDTO;
 import com.daza.gestionproductos.dto.ProductoDTO;
 import com.daza.gestionproductos.dto.ProductoUpdateDTO;
@@ -18,4 +19,6 @@ public interface ProductoService {
     Page<ProductoDTO> listarProductos(Pageable pageable);
     ProductoDTO buscarProductoPorId(Long id);
     //Page<ProductoDTO> busqueda(String nombre, String marca, int precioMin, int precioMax, Pageable pageable);
+
+    Page<ProductoDTO> busqueda(CriterioBusqueda criterioBusqueda, Pageable pageable);
 }
