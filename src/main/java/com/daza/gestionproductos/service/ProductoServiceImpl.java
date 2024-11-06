@@ -112,5 +112,11 @@ public class ProductoServiceImpl implements ProductoService {
         return all.map(productoMapper::toDto);
     }
 
+    @Override
+    public ProductoDTO buscarProductoPorId(Long id) {
+        Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+        return productoMapper.toDto(producto);
+    }
+
 
 }

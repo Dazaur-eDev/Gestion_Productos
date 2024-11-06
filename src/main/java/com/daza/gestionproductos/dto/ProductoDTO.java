@@ -14,6 +14,8 @@ public class ProductoDTO {
     private Long id;
     private String nombre;
     private String marca;
+
+
     private LocalDate fechaElaboracion;
     private boolean estaDisponible;
     private int precio;

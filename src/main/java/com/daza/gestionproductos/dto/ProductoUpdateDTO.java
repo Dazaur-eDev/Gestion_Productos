@@ -13,4 +13,6 @@ public class ProductoUpdateDTO {
     private String fechaElaboracion;
     private Boolean estaDisponible;
     private Integer precio;
+
+
 }

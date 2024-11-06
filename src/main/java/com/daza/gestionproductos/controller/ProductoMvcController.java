@@ -2,6 +2,7 @@ package com.daza.gestionproductos.controller;
 
 import com.daza.gestionproductos.dto.ProductoCreateDTO;
 import com.daza.gestionproductos.dto.ProductoDTO;
+import com.daza.gestionproductos.dto.ProductoUpdateDTO;
 import com.daza.gestionproductos.service.ProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/productos")
@@ -40,6 +43,21 @@ public class ProductoMvcController {
     public String eliminarProducto(@PathVariable  Long id){
         productoService.deleteProducto(id);
         return "redirect:/productos";
+    }
+
+    @GetMapping("/{id}/editar")
+    public String editarProducto(@PathVariable  Long id, Model model){
+        ProductoDTO productoUpdateDTO = productoService.buscarProductoPorId(id);
+        System.out.println(productoUpdateDTO);
+        model.addAttribute("productoUpdateDTO", productoUpdateDTO);
+        return "editarProducto";
+    }
+
+    @PostMapping("/{id}/editar")
+    public String editarProducto(@PathVariable Long id, ProductoUpdateDTO productoUpdateDTO) {
+        productoService.updateProducto(id, productoUpdateDTO);
+        return "redirect:/productos";
+
     }
 
 }

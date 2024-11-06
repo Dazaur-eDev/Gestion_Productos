@@ -16,5 +16,6 @@ public interface ProductoService {
     Page<ProductoDTO> busquedaProductoMarca(String marca, Pageable pageable);
     Page<ProductoDTO> busquedaProductoRangoPrecio(int precioMin, int precioMax, Pageable pageable);
     Page<ProductoDTO> listarProductos(Pageable pageable);
+    ProductoDTO buscarProductoPorId(Long id);
 
 }

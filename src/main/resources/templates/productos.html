@@ -35,9 +35,9 @@
                 <td th:text="${'$' + #numbers.formatDecimal(producto.precio, 0, 'POINT', 0, 'COMMA')}"></td>
                 <td>
                     <div class="btn-group" role="group">
-                        <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn btn-warning btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        <form method="get" th:action="@{/productos/{id}/editar(id=${producto.id})}">
+                            <button class="btn btn-primary btn-sm ms-1" type="submit">Editar</button>
+                        </form>
                         <form method="post" th:action="@{/productos/{id}/eliminar(id=${producto.id})}">
                             <button class="btn btn-danger btn-sm ms-1" onclick="return confirm('¿Está seguro de eliminar este producto?')" type="submit">Eliminar</button>
                         </form>
