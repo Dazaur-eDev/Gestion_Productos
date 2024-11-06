@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -45,7 +43,7 @@ public class ProductoServiceImpl implements ProductoService {
             producto.setMarca(updateDTO.getMarca());
         }
         if(updateDTO.getFechaElaboracion()!=null){
-            producto.setFechaElaboracion(LocalDate.parse(updateDTO.getFechaElaboracion())); //puede fallar si formato de fecha invalida
+            producto.setFechaElaboracion(updateDTO.getFechaElaboracion());
         }
         if(updateDTO.getEstaDisponible() !=null){
             producto.setEstaDisponible(updateDTO.getEstaDisponible());
@@ -117,6 +115,12 @@ public class ProductoServiceImpl implements ProductoService {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
         return productoMapper.toDto(producto);
     }
+
+//    @Override
+//    public Page<ProductoDTO> busqueda(String nombre, String marca, int precioMin, int precioMax, Pageable pageable) {
+//        Page<Producto> granNombreBusqueda = productoRepository.findByNombreContainingIgnoreCaseAndMarcaContainingIgnoreCaseAndPrecioBetween(nombre, marca, precioMin, precioMax, pageable);
+//        return granNombreBusqueda.map(productoMapper::toDto);
+//    }
 
 
 }

@@ -13,7 +13,7 @@ public class ProductoMapper {
         Producto producto = new Producto();
         producto.setNombre(createDTO.getNombre());
         producto.setMarca(createDTO.getMarca());
-        LocalDate fecha = parsearFecha(createDTO.getFechaElaboracion());
+        LocalDate fecha = createDTO.getFechaElaboracion();
         producto.setFechaElaboracion(fecha);
         producto.setEstaDisponible(createDTO.isEstaDisponible());
         producto.setPrecio(createDTO.getPrecio());
@@ -25,7 +25,7 @@ public class ProductoMapper {
         Producto producto = new Producto();
         producto.setNombre(updateDTO.getNombre());
         producto.setMarca(updateDTO.getMarca());
-        LocalDate fecha = parsearFecha(updateDTO.getFechaElaboracion());
+        LocalDate fecha = updateDTO.getFechaElaboracion();
         producto.setFechaElaboracion(fecha);
         producto.setEstaDisponible(updateDTO.getEstaDisponible());
         producto.setPrecio(updateDTO.getPrecio());
@@ -43,9 +43,5 @@ public class ProductoMapper {
         return productoDTO;
     }
 
-    private LocalDate parsearFecha(String fechaElaboracion) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(fechaElaboracion, formatter);
-    }
 
 }

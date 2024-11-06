@@ -15,9 +15,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "productos")
 public class Producto {
-     //En postgres identity te genera una sequence por defecto de 1 en 1
-     //si quieres definir sequence distinta, sequence
-     //claro a nivel de db, defines seq
+
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Long id;
