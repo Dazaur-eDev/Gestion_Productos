@@ -1,10 +1,8 @@
 package com.daza.gestionproductos.service;
 
-import com.daza.gestionproductos.dto.ProductoCreateDTO;
-import com.daza.gestionproductos.dto.ProductoDTO;
-import com.daza.gestionproductos.dto.ProductoMapper;
-import com.daza.gestionproductos.dto.ProductoUpdateDTO;
+import com.daza.gestionproductos.dto.*;
 import com.daza.gestionproductos.model.Producto;
+import com.daza.gestionproductos.repository.ProductoBusqueda;
 import com.daza.gestionproductos.repository.ProductoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
     private final ProductoMapper productoMapper;
+    private final ProductoBusqueda productoBusqueda;
 
     @Override
     public ProductoDTO createProducto(ProductoCreateDTO createDTO) {
@@ -114,6 +113,12 @@ public class ProductoServiceImpl implements ProductoService {
     public ProductoDTO buscarProductoPorId(Long id) {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
         return productoMapper.toDto(producto);
+    }
+
+    @Override
+    public Page<ProductoDTO> busqueda(CriterioBusqueda criterioBusqueda, Pageable pageable) {
+        return productoBusqueda.busquedaFiltrada(criterioBusqueda, pageable)
+                               .map(productoMapper::toDto);
     }
 
 //    @Override
